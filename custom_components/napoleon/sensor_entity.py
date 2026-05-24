@@ -22,7 +22,7 @@ PROBE_SENSORS = [
 SENSOR_DEFINITIONS = [
     *PROBE_SENSORS,
     ("BRT_LVL", "Brightness Level"),
-    ("BT_LVL", "Burner Level"),
+    ("BT_LVL", "Gas Level"),
     ("RSSI", "WiFi Signal"),
     ("RST_CNT", "Reset Count"),
     ("PRB_STAT", "Probe Status"),
@@ -56,20 +56,21 @@ def _build_device_info(dsn: str, device: dict) -> DeviceInfo:
 class NapoleonSensor(CoordinatorEntity, SensorEntity):
     """Sensor entity for a Napoleon grill property."""
 
+    _attr_has_entity_name = True
+
     def __init__(
         self,
         coordinator: NapoleonDataCoordinator,
         entry: ConfigEntry,
         dsn: str,
         property_name: str,
-        display_name: str,
         device_name: str,
         device: dict,
     ) -> None:
         super().__init__(coordinator)
         self._dsn = dsn
         self._property_name = property_name
-        self._attr_name = f"{device_name} {display_name}"
+        self._attr_translation_key = property_name.lower()
         self._attr_unique_id = f"napoleon_{dsn}_{property_name}"
         self._attr_icon = SENSOR_ICONS.get(property_name, "mdi:grill")
         self._attr_device_info = _build_device_info(dsn, device)
@@ -101,6 +102,8 @@ class NapoleonSensor(CoordinatorEntity, SensorEntity):
 class NapoleonConnectionSensor(CoordinatorEntity, SensorEntity):
     """Sensor for device connection status."""
 
+    _attr_has_entity_name = True
+
     def __init__(
         self,
         coordinator: NapoleonDataCoordinator,
@@ -111,7 +114,7 @@ class NapoleonConnectionSensor(CoordinatorEntity, SensorEntity):
     ) -> None:
         super().__init__(coordinator)
         self._dsn = dsn
-        self._attr_name = f"{device_name} Connection"
+        self._attr_translation_key = "connection_status"
         self._attr_unique_id = f"napoleon_{dsn}_connection_status"
         self._attr_icon = "mdi:lan-connect"
         self._attr_device_info = _build_device_info(dsn, device)
@@ -139,10 +142,10 @@ def create_napoleon_sensors(
             NapoleonConnectionSensor(coordinator, entry, dsn, device_name, device)
         )
 
-        for property_name, display_name in SENSOR_DEFINITIONS:
+        for property_name, _ in SENSOR_DEFINITIONS:
             sensors.append(
                 NapoleonSensor(
-                    coordinator, entry, dsn, property_name, display_name, device_name, device
+                    coordinator, entry, dsn, property_name, device_name, device
                 )
             )
 

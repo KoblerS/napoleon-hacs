@@ -15,5 +15,39 @@
       "invalid_auth": "Ungültige E-Mail oder Passwort",
       "unknown": "Ein unerwarteter Fehler ist aufgetreten"
     }
+  },
+  "entity": {
+    "sensor": {
+      "prb_tmp_one": {
+        "name": "Sonde 1 Temperatur"
+      },
+      "prb_tmp_two": {
+        "name": "Sonde 2 Temperatur"
+      },
+      "prb_tmp_three": {
+        "name": "Sonde 3 Temperatur"
+      },
+      "prb_tmp_four": {
+        "name": "Sonde 4 Temperatur"
+      },
+      "brt_lvl": {
+        "name": "Helligkeit"
+      },
+      "bt_lvl": {
+        "name": "Gasfüllstand"
+      },
+      "rssi": {
+        "name": "WLAN-Signal"
+      },
+      "rst_cnt": {
+        "name": "Neustarts"
+      },
+      "prb_stat": {
+        "name": "Sondenstatus"
+      },
+      "connection_status": {
+        "name": "Verbindung"
+      }
+    }
   }
 }

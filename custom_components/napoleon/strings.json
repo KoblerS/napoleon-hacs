@@ -15,5 +15,39 @@
       "invalid_auth": "Invalid email or password",
       "unknown": "An unexpected error occurred"
     }
+  },
+  "entity": {
+    "sensor": {
+      "prb_tmp_one": {
+        "name": "Probe 1 Temperature"
+      },
+      "prb_tmp_two": {
+        "name": "Probe 2 Temperature"
+      },
+      "prb_tmp_three": {
+        "name": "Probe 3 Temperature"
+      },
+      "prb_tmp_four": {
+        "name": "Probe 4 Temperature"
+      },
+      "brt_lvl": {
+        "name": "Brightness Level"
+      },
+      "bt_lvl": {
+        "name": "Gas Level"
+      },
+      "rssi": {
+        "name": "WiFi Signal"
+      },
+      "rst_cnt": {
+        "name": "Reset Count"
+      },
+      "prb_stat": {
+        "name": "Probe Status"
+      },
+      "connection_status": {
+        "name": "Connection"
+      }
+    }
   }
 }
