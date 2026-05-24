@@ -6,8 +6,10 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfTemperature
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from .const import DOMAIN
 from .coordinator import NapoleonDataCoordinator
 
 PROBE_SENSORS = [
@@ -39,6 +41,18 @@ SENSOR_ICONS = {
 }
 
 
+def _build_device_info(dsn: str, device: dict) -> DeviceInfo:
+    """Build DeviceInfo for a Napoleon grill device."""
+    return DeviceInfo(
+        identifiers={(DOMAIN, dsn)},
+        name=device.get("product_name", "Napoleon Grill"),
+        manufacturer="Napoleon",
+        model=device.get("product_name", "Unknown"),
+        sw_version=device.get("sw_version"),
+        hw_version=device.get("model"),
+    )
+
+
 class NapoleonSensor(CoordinatorEntity, SensorEntity):
     """Sensor entity for a Napoleon grill property."""
 
@@ -50,6 +64,7 @@ class NapoleonSensor(CoordinatorEntity, SensorEntity):
         property_name: str,
         display_name: str,
         device_name: str,
+        device: dict,
     ) -> None:
         super().__init__(coordinator)
         self._dsn = dsn
@@ -57,6 +72,7 @@ class NapoleonSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = f"{device_name} {display_name}"
         self._attr_unique_id = f"napoleon_{dsn}_{property_name}"
         self._attr_icon = SENSOR_ICONS.get(property_name, "mdi:grill")
+        self._attr_device_info = _build_device_info(dsn, device)
 
         if property_name in ("PRB_TMP_ONE", "PRB_TMP_TWO", "PRB_TMP_THREE", "PRB_TMP_FOUR"):
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -91,12 +107,14 @@ class NapoleonConnectionSensor(CoordinatorEntity, SensorEntity):
         entry: ConfigEntry,
         dsn: str,
         device_name: str,
+        device: dict,
     ) -> None:
         super().__init__(coordinator)
         self._dsn = dsn
         self._attr_name = f"{device_name} Connection"
         self._attr_unique_id = f"napoleon_{dsn}_connection_status"
         self._attr_icon = "mdi:lan-connect"
+        self._attr_device_info = _build_device_info(dsn, device)
 
     @property
     def native_value(self):
@@ -118,13 +136,13 @@ def create_napoleon_sensors(
         device_name = device.get("product_name", "Napoleon Grill")
 
         sensors.append(
-            NapoleonConnectionSensor(coordinator, entry, dsn, device_name)
+            NapoleonConnectionSensor(coordinator, entry, dsn, device_name, device)
         )
 
         for property_name, display_name in SENSOR_DEFINITIONS:
             sensors.append(
                 NapoleonSensor(
-                    coordinator, entry, dsn, property_name, display_name, device_name
+                    coordinator, entry, dsn, property_name, display_name, device_name, device
                 )
             )
 
