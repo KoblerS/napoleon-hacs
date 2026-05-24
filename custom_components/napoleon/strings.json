@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Napoleon Grill Login",
+        "description": "Enter your Napoleon Home app credentials. Currently only the EU region is supported.",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "region": "Region"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password",
+      "unknown": "An unexpected error occurred"
+    }
+  }
+}

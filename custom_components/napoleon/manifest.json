@@ -1,0 +1,13 @@
+{
+  "codeowners": [
+    "@KoblerS"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/KoblerS/napoleon-hacs",
+  "domain": "napoleon",
+  "iot_class": "cloud_polling",
+  "name": "Napoleon Grill",
+  "requirements": ["aiohttp"],
+  "version": "1.0.0"
+}

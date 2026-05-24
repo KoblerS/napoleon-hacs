@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "napoleon-home-has-collection",
+		"name": "Napoleon Home HAS - Ayla Networks API",
+		"description": "Reverse-engineered API collection for Napoleon Home (Ayla Networks) smart home devices.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "auth_token {{access_token}}",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url_user",
+			"value": "https://user-field-eu.aylanetworks.com"
+		},
+		{
+			"key": "base_url_ads",
+			"value": "https://ads-eu.aylanetworks.com"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "app_id",
+			"value": "smarthome_eu-rA-hQ-id-5Q-id"
+		},
+		{
+			"key": "app_secret",
+			"value": "smarthome_eu-rA-hQ-id-gHzZGo5048znNn0F9nuyc_PSyBw"
+		},
+		{
+			"key": "dsn",
+			"value": "AC000W038725383"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.collectionVariables.set('access_token', jsonData.access_token);",
+									"}",
+									"if (jsonData.refresh_token) {",
+									"    pm.collectionVariables.set('refresh_token', jsonData.refresh_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": {\n    \"email\": \"{{email}}\",\n    \"application\": {\n      \"app_id\": \"{{app_id}}\",\n      \"app_secret\": \"{{app_secret}}\"\n    },\n    \"password\": \"{{password}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url_user}}/users/sign_in.json",
+							"host": ["{{base_url_user}}"],
+							"path": ["users", "sign_in.json"]
+						},
+						"description": "Authenticate with the Ayla Networks API. Returns access_token and refresh_token. The access_token expires in 86400 seconds (24 hours)."
+					},
+					"response": [
+						{
+							"name": "Successful Sign In",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user\": {\n    \"email\": \"{{email}}\",\n    \"application\": {\n      \"app_id\": \"{{app_id}}\",\n      \"app_secret\": \"{{app_secret}}\"\n    },\n    \"password\": \"{{password}}\"\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url_user}}/users/sign_in.json",
+									"host": ["{{base_url_user}}"],
+									"path": ["users", "sign_in.json"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"body": "{\n  \"access_token\": \"252361a767da4ed4a852859aa826545b\",\n  \"refresh_token\": \"3ea4298112624190b1041baa692ff6bb\",\n  \"expires_in\": 86400,\n  \"role\": \"EndUser\",\n  \"role_tags\": []\n}"
+						}
+					]
+				}
+			],
+			"description": "Authentication endpoints for the Ayla Networks API."
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "Get Devices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ads}}/apiv1/devices.json",
+							"host": ["{{base_url_ads}}"],
+							"path": ["apiv1", "devices.json"]
+						},
+						"description": "Get all devices associated with the authenticated user account."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_ads}}/apiv1/devices.json",
+									"host": ["{{base_url_ads}}"],
+									"path": ["apiv1", "devices.json"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"body": "[{\n  \"device\": {\n    \"product_name\": \"Prestige-CCF\",\n    \"model\": \"AY008ESP1\",\n    \"dsn\": \"AC000W038725383\",\n    \"oem_model\": \"thermometer-mqtt-eu\",\n    \"sw_version\": \"ADA 3.0.9 esp-idf-v4.4.2 2025-04-03 23:27:02 dc70a4385d\",\n    \"template_id\": 269306,\n    \"mac\": \"345f452dccf4\",\n    \"unique_hardware_id\": null,\n    \"hwsig\": \"mac-345f452dccf4\",\n    \"lan_ip\": \"192.168.3.238\",\n    \"connected_at\": \"2026-05-24T13:44:20Z\",\n    \"key\": 3541797,\n    \"lan_enabled\": true,\n    \"connection_priority\": [\"LAN\", \"BLE\"],\n    \"has_properties\": true,\n    \"product_class\": null,\n    \"connection_status\": \"Online\",\n    \"lat\": \"48.0682\",\n    \"lng\": \"11.6614\",\n    \"locality\": \"85521\",\n    \"device_type\": \"Wifi\",\n    \"dealer\": null,\n    \"facility_uuid\": null\n  }\n}]"
+						}
+					]
+				},
+				{
+					"name": "Get Device Properties (Sensors)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ads}}/apiv1/dsns/{{dsn}}/properties.json",
+							"host": ["{{base_url_ads}}"],
+							"path": ["apiv1", "dsns", "{{dsn}}", "properties.json"]
+						},
+						"description": "Get all properties/sensor data for a specific device identified by its DSN (Device Serial Number)."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_ads}}/apiv1/dsns/{{dsn}}/properties.json",
+									"host": ["{{base_url_ads}}"],
+									"path": ["apiv1", "dsns", "{{dsn}}", "properties.json"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"body": "[{\n  \"property\": {\n    \"type\": \"Property\",\n    \"name\": \"PRB_TMP_FOUR\",\n    \"base_type\": \"decimal\",\n    \"read_only\": true,\n    \"direction\": \"output\",\n    \"scope\": \"user\",\n    \"data_updated_at\": \"2026-05-24T13:50:23Z\",\n    \"key\": 720253104,\n    \"device_key\": 3541797,\n    \"product_name\": \"Prestige-CCF\",\n    \"track_only_changes\": false,\n    \"display_name\": \"PRB_TMP_FOUR\",\n    \"host_sw_version\": false,\n    \"time_series\": false,\n    \"derived\": false,\n    \"app_type\": null,\n    \"recipe\": null,\n    \"value\": 32.0,\n    \"generated_from\": \"AYLA::device\",\n    \"generated_at\": null,\n    \"denied_roles\": [],\n    \"ack_enabled\": false,\n    \"retention_days\": 30\n  }\n}]"
+						}
+					]
+				},
+				{
+					"name": "Get Device Room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ads}}/apiv1/dsns/{{dsn}}/data/room.json",
+							"host": ["{{base_url_ads}}"],
+							"path": ["apiv1", "dsns", "{{dsn}}", "data", "room.json"]
+						},
+						"description": "Get the room assignment for a specific device identified by its DSN."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_ads}}/apiv1/dsns/{{dsn}}/data/room.json",
+									"host": ["{{base_url_ads}}"],
+									"path": ["apiv1", "dsns", "{{dsn}}", "data", "room.json"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"body": "{\n  \"datum\": {\n    \"key\": \"room\",\n    \"value\": \"Garten\",\n    \"created_at\": \"2026-04-10T11:03:23Z\",\n    \"updated_at\": \"2026-04-10T11:03:23Z\",\n    \"from_template\": false,\n    \"dsn\": \"AC000W038725383\"\n  }\n}"
+						}
+					]
+				}
+			],
+			"description": "Device management and sensor data endpoints."
+		}
+	]
+}
