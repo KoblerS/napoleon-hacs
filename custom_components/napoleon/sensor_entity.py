@@ -5,7 +5,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfTemperature
+from homeassistant.const import PERCENTAGE, SIGNAL_STRENGTH_DECIBELS_MILLIWATT, UnitOfTemperature
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -78,6 +78,9 @@ class NapoleonSensor(CoordinatorEntity, SensorEntity):
         if property_name in ("PRB_TMP_ONE", "PRB_TMP_TWO", "PRB_TMP_THREE", "PRB_TMP_FOUR"):
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
             self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+            self._attr_state_class = SensorStateClass.MEASUREMENT
+        elif property_name == "BT_LVL":
+            self._attr_native_unit_of_measurement = PERCENTAGE
             self._attr_state_class = SensorStateClass.MEASUREMENT
         elif property_name == "RSSI":
             self._attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH

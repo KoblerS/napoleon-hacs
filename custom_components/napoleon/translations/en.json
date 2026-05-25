@@ -28,7 +28,7 @@
         "name": "Probe 3 Temperature"
       },
       "prb_tmp_four": {
-        "name": "Probe 4 Temperature"
+        "name": "Grill Grate Temperature"
       },
       "brt_lvl": {
         "name": "Brightness Level"

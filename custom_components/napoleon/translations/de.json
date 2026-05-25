@@ -28,7 +28,7 @@
         "name": "Sonde 3 Temperatur"
       },
       "prb_tmp_four": {
-        "name": "Sonde 4 Temperatur"
+        "name": "Rosttemperatur"
       },
       "brt_lvl": {
         "name": "Helligkeit"
