@@ -29,12 +29,12 @@ SENSOR_DEFINITIONS = [
 ]
 
 SENSOR_ICONS = {
-    "PRB_TMP_ONE": "mdi:thermometer",
-    "PRB_TMP_TWO": "mdi:thermometer",
-    "PRB_TMP_THREE": "mdi:thermometer",
-    "PRB_TMP_FOUR": "mdi:thermometer",
+    "PRB_TMP_ONE": "mdi:thermometer-probe",
+    "PRB_TMP_TWO": "mdi:thermometer-probe",
+    "PRB_TMP_THREE": "mdi:thermometer-probe",
+    "PRB_TMP_FOUR": "mdi:gas-burner",
     "BRT_LVL": "mdi:brightness-6",
-    "BT_LVL": "mdi:fire",
+    "BT_LVL": "mdi:gas-cylinder",
     "RSSI": "mdi:wifi",
     "RST_CNT": "mdi:restart",
     "PRB_STAT": "mdi:information-outline",
